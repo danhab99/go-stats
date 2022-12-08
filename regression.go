@@ -47,17 +47,19 @@ func LinearRegression(s Series) (regressions Series, err error) {
 }
 
 // ExponentialRegression returns an exponential regression on data series
-func ExponentialRegression(s Series) (regressions Series, err error) {
+func ExponentialRegression(s Series) (regressions Series, a, b float64, err error) {
 
 	if len(s) == 0 {
-		return nil, EmptyInputErr
+		err = EmptyInputErr
+		return
 	}
 
 	var sum [6]float64
 
 	for i := 0; i < len(s); i++ {
 		if s[i].Y < 0 {
-			return nil, YCoordErr
+			err = YCoordErr
+			return
 		}
 		sum[0] += s[i].X
 		sum[1] += s[i].Y
@@ -68,8 +70,8 @@ func ExponentialRegression(s Series) (regressions Series, err error) {
 	}
 
 	denominator := (sum[1]*sum[2] - sum[5]*sum[5])
-	a := math.Pow(math.E, (sum[2]*sum[3]-sum[5]*sum[4])/denominator)
-	b := (sum[1]*sum[4] - sum[5]*sum[3]) / denominator
+	a = math.Pow(math.E, (sum[2]*sum[3]-sum[5]*sum[4])/denominator)
+	b = (sum[1]*sum[4] - sum[5]*sum[3]) / denominator
 
 	for j := 0; j < len(s); j++ {
 		regressions = append(regressions, Coordinate{
@@ -78,7 +80,7 @@ func ExponentialRegression(s Series) (regressions Series, err error) {
 		})
 	}
 
-	return regressions, nil
+	return
 }
 
 // LogarithmicRegression returns an logarithmic regression on data series
