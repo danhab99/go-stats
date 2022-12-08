@@ -27,7 +27,7 @@ func LinReg(s []Coordinate) (regressions []Coordinate, err error) {
 
 // ExpReg is a shortcut to ExponentialRegression
 func ExpReg(s []Coordinate) (regressions []Coordinate, err error) {
-	return ExponentialRegression(s)
+	panic("idk")
 }
 
 // LogReg is a shortcut to LogarithmicRegression
